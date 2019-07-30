@@ -55,7 +55,7 @@ class Card(models.Model):
     id_rarity = models.CharField(choices=Rarity.ALL, max_length=40)
     # rarity = models.ForeignKey('Rarity', on_delete=models.PROTECT)
     # id_set = models.CharField(max_length=40)
-    set = models.ForeignKey('Set', on_delete=models.PROTECT, db_column='id_set', max_length=40)
+    set = models.ForeignKey('Set', on_delete=models.PROTECT, db_column='id_set', max_length=40, related_name='cards',)
     id_asset = models.CharField(max_length=40)
     rate = models.DecimalField(default=0, max_digits=14, decimal_places=4)
     rate_votes = models.DecimalField(default=0, max_digits=10, decimal_places=0)
