@@ -1,4 +1,4 @@
-POSTGRES_VERSION        ?= 11.4-alpine
+POSTGRES_VERSION        ?= 10-alpine
 POSTGRES_USER           ?= postgres
 POSTGRES_PASSWORD       ?=
 POSTGRES_HOST           ?= localhost
@@ -37,6 +37,12 @@ postgres.makemigrations:
 
 postgres.migrate:
 	python manage.py migrate
+
+postgres.backup:
+	pg_dump -h $(POSTGRES_HOST) -U $(POSTGRES_USER) -d $(POSTGRES_DATABASE) -a --column-inserts --inserts -t set -t card > ./contrib/fivecolors-django.sql
+
+postgres.restore:
+	psql -h $(POSTGRES_HOST) -U $(POSTGRES_USER) -d $(POSTGRES_DATABASE) -f ./contrib/fivecolors-django.sql
 
 run: postgres.migrate
 	python manage.py runserver
